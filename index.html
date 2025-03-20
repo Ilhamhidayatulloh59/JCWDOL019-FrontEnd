@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script>
+      function updateText() {
+        const element = document.getElementById("myElement");
+        element.innerText = "Update Text";
+        element.style.color = "red";
+      }
+    </script>
+  </head>
+  <body>
+    <h1 id="myElement">Original Text</h1>
+    <button onclick="updateText()">Update Text</button>
+  </body>
+</html>

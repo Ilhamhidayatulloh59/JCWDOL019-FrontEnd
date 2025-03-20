@@ -1,0 +1,19 @@
+.halo {
+  color: red;
+  font-size: 50px;
+}
+
+.navbar {
+  height: 60px;
+  width: 100vw;
+  background-color: teal;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+}
