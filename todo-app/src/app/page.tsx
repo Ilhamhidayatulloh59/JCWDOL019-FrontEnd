@@ -1,12 +1,47 @@
+"use client";
+
+import TodoItem from "@/components/todoItem";
+import { RootState } from "@/redux/store";
+import { setTodos } from "@/redux/todoSlice";
+import { useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 export default function Home() {
-  const data = [
-    { text: "Complete online JavaScript course", done: true },
-    { text: "Jog around the park 3x", done: false },
-    { text: "10 minutes meditation", done: false },
-    { text: "Read for 1 hour", done: false },
-    { text: "Pick up groceries", done: false },
-    { text: "Complete Todo App on Frontend Mentor", done: false },
-  ];
+  const inputRef = useRef<null | HTMLInputElement>(null);
+  // const [todos, setTodos] = useState<ITodo[]>([]);
+  const todos = useSelector((state: RootState) => state.todo);
+  const dispatch = useDispatch();
+
+  const onAddTodo = () => {
+    if (inputRef.current && inputRef.current.value != "") {
+      const desc = inputRef.current.value;
+      const maxId =
+        todos.length == 0 ? 0 : Math.max(...todos.map((todo) => todo.id));
+      // setTodos([...todos, { id: maxId + 1, desc, done: false }]);
+      dispatch(setTodos([...todos, { id: maxId + 1, desc, done: false }]));
+      inputRef.current.value = "";
+    } else {
+      alert("Input empty");
+    }
+  };
+
+  const onDoneTodo = (id: number) => {
+    const newTodos = todos.map((item) => {
+      if (item.id == id) {
+        return { ...item, done: !item.done };
+      }
+      return item;
+    });
+    // setTodos(newTodos)
+    dispatch(setTodos(newTodos));
+  };
+
+  const onDeleteTodo = (id: number) => {
+    const newTodos = todos.filter((item) => item.id !== id);
+    // setTodos(newTodos)
+    dispatch(setTodos(newTodos));
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 font-sans">
       <div className="relative h-[300px] w-full">
@@ -26,53 +61,27 @@ export default function Home() {
         </div>
         <div className="bg-white rounded-md flex items-center px-5 py-2 shadow-md">
           <input
+            ref={inputRef}
             type="text"
             placeholder="Create a new todo..."
             className="flex-1 outline-none text-gray-700 placeholder-gray-400"
           />
-          <button className="ml-4 bg-gradient-to-br from-purple-400 to-blue-400 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
+          <button
+            onClick={onAddTodo}
+            className="ml-4 bg-gradient-to-br from-purple-400 to-blue-400 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+          >
             Add
           </button>
         </div>
 
         <div className="bg-white mt-4 rounded-md shadow-md overflow-hidden">
-          {data.map((todo, idx) => (
-            <div
+          {todos.map((todo, idx) => (
+            <TodoItem
+              todo={todo}
+              onDone={onDoneTodo}
+              onDelete={onDeleteTodo}
               key={idx}
-              className="flex items-center px-5 py-4 border-b last:border-none group"
-            >
-              <div
-                className={`w-5 h-5 border-2 rounded-full mr-4 flex-shrink-0 ${
-                  todo.done
-                    ? "bg-gradient-to-br from-purple-400 to-blue-400 border-none"
-                    : "border-gray-300"
-                }`}
-              >
-                {todo.done && (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-4 h-4 text-white mx-auto mt-[1px]"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={3}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                )}
-              </div>
-              <span
-                className={`text-sm md:text-base ${
-                  todo.done ? "line-through text-gray-400" : "text-gray-800"
-                }`}
-              >
-                {todo.text}
-              </span>
-            </div>
+            />
           ))}
         </div>
       </section>
