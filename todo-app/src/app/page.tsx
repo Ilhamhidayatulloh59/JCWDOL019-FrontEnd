@@ -24,12 +24,15 @@ export default function Home() {
         <div className="relative z-10 mb-10 flex items-center justify-between text-white text-3xl font-bold tracking-[0.3em] uppercase">
           <span>Todo</span>
         </div>
-        <div className="bg-white rounded-md flex items-center px-5 py-4 shadow-md">
+        <div className="bg-white rounded-md flex items-center px-5 py-2 shadow-md">
           <input
             type="text"
             placeholder="Create a new todo..."
             className="flex-1 outline-none text-gray-700 placeholder-gray-400"
           />
+          <button className="ml-4 bg-gradient-to-br from-purple-400 to-blue-400 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
+            Add
+          </button>
         </div>
 
         <div className="bg-white mt-4 rounded-md shadow-md overflow-hidden">
