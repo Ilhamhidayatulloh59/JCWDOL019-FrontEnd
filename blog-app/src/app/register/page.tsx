@@ -1,4 +1,10 @@
 import FormRegister from "@/components/register/form";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Register",
+  description: "Register page ",
+};
 
 export default function Page() {
   return (
