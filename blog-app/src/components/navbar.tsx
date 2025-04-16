@@ -1,13 +1,41 @@
 import Link from "next/link";
+import Wrapper from "./wrapper";
+import Image from "next/image";
 
 export default function Navbar() {
   return (
-    <div className="h-[60px] w-screen bg-orange-500 px-28 max-sm:px-5 flex items-center justify-between">
-      <p>LOGO</p>
-      <div className="flex gap-5">
-        <Link href={"/login"}>Login</Link>
-        <Link href={"/register"}>Register</Link>
-      </div>
+    <div className="sticky top-0 z-10 bg-white shadow-sm">
+      <Wrapper>
+        <div className="h-[60px] flex items-center justify-between">
+          <Link href={"/"} className="flex items-center gap-2">
+            <Image
+              alt="logo-blog"
+              src={"/logo.png"}
+              width={100}
+              height={100}
+              className="h-8 w-8"
+              priority
+            />
+            <span className="self-center text-2xl font-semibold whitespace-nowrap">
+              Blogger
+            </span>
+          </Link>
+          <div className="flex gap-2 h-[30px]">
+            <Link
+              href={"/login"}
+              className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-orange-700 rounded-lg hover:bg-orange-800"
+            >
+              Login
+            </Link>
+            <Link
+              href={"/register"}
+              className="inline-flex items-center border px-3 py-2 text-sm font-medium text-center text-black bg-white rounded-lg hover:bg-gray-100"
+            >
+              Register
+            </Link>
+          </div>
+        </div>
+      </Wrapper>
     </div>
   );
 }

@@ -1,7 +1,10 @@
+import { LoadingComp } from "@/components/loading";
+import Wrapper from "@/components/wrapper";
+
 export default function Loading() {
   return (
-    <div>
-      <p>Loading ...</p>
-    </div>
+    <Wrapper>
+      <LoadingComp />
+    </Wrapper>
   );
 }

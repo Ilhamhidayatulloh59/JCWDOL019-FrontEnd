@@ -10,5 +10,6 @@ export interface IBlog {
   category: string;
   content: string;
   thumbnail: string;
+  created: number;
   author: IAuthor;
 }
