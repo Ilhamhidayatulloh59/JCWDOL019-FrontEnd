@@ -13,3 +13,10 @@ export interface IBlog {
   created: number;
   author: IAuthor;
 }
+
+export interface BlogInput {
+  title: string;
+  category: string;
+  content: string;
+  thumbnail: string;
+}

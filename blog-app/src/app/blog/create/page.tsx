@@ -1,7 +1,12 @@
+import FormBlog from "@/components/blog/form";
+import Wrapper from "@/components/wrapper";
+
 export default function Page() {
   return (
     <div>
-      <p>INI CREATE BLOG</p>
+      <Wrapper>
+        <FormBlog />
+      </Wrapper>
     </div>
   );
 }
