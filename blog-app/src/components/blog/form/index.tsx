@@ -6,6 +6,8 @@ import * as Yup from "yup";
 import RichTextEditor from "./rte";
 import { toast } from "react-toastify";
 import { BlogInput } from "@/types/blog";
+import axios from "@/lib/axios";
+import { useSession } from "next-auth/react";
 
 const blogSchema = Yup.object({
   title: Yup.string()
@@ -27,12 +29,20 @@ const initialValues: BlogInput = {
 };
 
 export default function FormBlog() {
+  const session = useSession();
   const onCreate = async (
     values: BlogInput,
     actions: FormikHelpers<BlogInput>
   ) => {
     try {
-      console.log(values);
+      const { data } = await axios.post("/data/Blogs", values, {
+        headers: { "user-token": session.data?.userToken },
+      });
+
+      await axios.post(`/data/Blogs/${data.objectId}/author`, [session.data?.user.objectId], {
+        headers: { "user-token": session.data?.userToken },
+      });
+
       actions.resetForm();
       toast.success("Blog Created!");
     } catch (err) {

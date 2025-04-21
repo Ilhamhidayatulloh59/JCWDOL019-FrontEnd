@@ -49,7 +49,8 @@ export default async function Page({
               priority
             />
           </div>
-          <div>{blog.content}</div>
+          {/* <div>{blog.content}</div> */}
+          <div dangerouslySetInnerHTML={{ __html: blog.content }} />
         </div>
       </div>
     </Wrapper>
