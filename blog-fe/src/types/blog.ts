@@ -1,17 +1,18 @@
-export interface IAuthor {
-  objectId: string;
-  name: string;
+export interface IUser {
+  id: number;
+  username: string;
   email: string;
+  avatar: null | string;
 }
 
 export interface IBlog {
-  objectId: string;
+  id: string;
   title: string;
+  thumbnail: string;
   category: string;
   content: string;
-  thumbnail: string;
-  created: number;
-  author: IAuthor;
+  createdAt: string;
+  user: IUser;
 }
 
 export interface BlogInput {

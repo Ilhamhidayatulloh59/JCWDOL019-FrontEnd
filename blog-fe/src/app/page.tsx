@@ -1,12 +1,11 @@
 import BlogCard from "@/components/blog/card";
 import Wrapper from "@/components/wrapper";
+import axios from "@/lib/axios";
 import { IBlog } from "@/types/blog";
 
 export default async function Home() {
-  const res = await fetch(
-    "https://saucysmile-us.backendless.app/api/data/Blogs?loadRelations=author"
-  );
-  const data: IBlog[] = await res.json();
+  const res = await axios.get("/blogs");
+  const data: IBlog[] = res.data?.blogs;
 
   return (
     <Wrapper>

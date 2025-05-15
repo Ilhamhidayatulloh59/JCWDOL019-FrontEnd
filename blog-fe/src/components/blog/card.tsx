@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function BlogCard({ blog }: { blog: IBlog }) {
   return (
-    <Link href={`/blog/${blog.objectId}`} data-cy="blog-item">
+    <Link href={`/blog/${blog.id}`} data-cy="blog-item">
       <div className="flex flex-row-reverse items-center justify-between w-full max-sm:py-4 max-sm:border-b max-sm:border-b-gray-300 sm:block">
         <div className="h-[50px] w-[90px] sm:h-[150px] sm:w-full relative rounded-md overflow-hidden">
           <Image
@@ -24,9 +24,9 @@ export default function BlogCard({ blog }: { blog: IBlog }) {
             {blog.title}
           </h2>
           <div className="text-[12px] flex gap-1.5 text-gray-600">
-            <span className="capitalize">{blog.author.name}</span>
+            <span className="capitalize">{blog.user.username}</span>
             <span>|</span>
-            <span>{convertTime(blog.created)}</span>
+            <span>{convertTime(blog.createdAt)}</span>
           </div>
         </div>
       </div>

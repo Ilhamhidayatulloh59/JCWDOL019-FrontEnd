@@ -1,4 +1,5 @@
 import Wrapper from "@/components/wrapper";
+import axios from "@/lib/axios";
 import { IBlog } from "@/types/blog";
 import { convertTime } from "@/utils/time";
 import Image from "next/image";
@@ -11,10 +12,8 @@ export default async function Page({
   params: Promise<{ id: string }>;
 }) {
   const id = (await params).id;
-  const res = await fetch(
-    `https://saucysmile-us.backendless.app/api/data/Blogs/${id}?loadRelations=author`
-  );
-  const blog: IBlog = await res.json();
+  const res = await axios.get(`/blogs/${id}`);
+  const blog: IBlog = res.data?.blog;
   return (
     <Wrapper>
       <div className="flex mt-6 gap-2 w-full">
@@ -36,9 +35,9 @@ export default async function Page({
             {blog.title}
           </div>
           <div className="flex gap-2 text-[12px] capitalize">
-            <span className="font-bold">{blog.author.name}</span>
+            <span className="font-bold">{blog.user.username}</span>
             <span>∙</span>
-            <span className="font-light">{convertTime(blog.created)}</span>
+            <span className="font-light">{convertTime(blog.createdAt)}</span>
           </div>
           <div className="h-[400px] max-md:h-[300px] max-sm:h-[250px] w-full relative my-6">
             <Image
