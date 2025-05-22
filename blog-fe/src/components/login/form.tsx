@@ -3,6 +3,7 @@
 import axios from "@/lib/axios";
 import { AxiosError } from "axios";
 import { Field, Form, Formik, FormikHelpers, FormikProps } from "formik";
+import { signIn } from "next-auth/react";
 // import { signIn } from "next-auth/react";
 import { toast } from "react-toastify";
 import * as yup from "yup";
@@ -31,17 +32,16 @@ export default function FormLogin() {
     action: FormikHelpers<ILoginForm>
   ) => {
     try {
-      const { data } = await axios.post("/users/login", value);
-      // await signIn("credentials", {
-      //   redirectTo: "/",
-      //   objectId: data.objectId,
-      //   name: data.name,
-      //   email: data.email,
-      //   userToken: data["user-token"],
-      // });
-      console.log(data);
-      
-      toast.success("Login successfully");
+      const { data } = await axios.post("/auth/login", value);
+      await signIn("credentials", {
+        redirectTo: "/",
+        username: data.user?.username,
+        email: data.user?.email,
+        avatar: data.user?.avatar,
+        userToken: data.token,
+      });
+
+      toast.success(data.message);
       action.resetForm();
     } catch (err) {
       console.log(err);
@@ -67,7 +67,7 @@ export default function FormLogin() {
             <Form>
               <div className="flex flex-col">
                 <label htmlFor="login" className="text-md">
-                  Email
+                  Email or Username
                 </label>
                 <Field
                   name="login"

@@ -19,5 +19,5 @@ export interface BlogInput {
   title: string;
   category: string;
   content: string;
-  thumbnail: string;
+  thumbnail: File | Blob | null;
 }

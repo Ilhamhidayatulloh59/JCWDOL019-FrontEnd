@@ -25,24 +25,37 @@ const initialValues: BlogInput = {
   title: "",
   category: "",
   content: "",
-  thumbnail: "",
+  thumbnail: null,
 };
 
 export default function FormBlog() {
   const session = useSession();
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    setFieldValue: FormikHelpers<BlogInput>["setFieldValue"]
+  ) => {
+    const file = e.target.files?.[0];
+    console.log(file);
+    setFieldValue("thumbnail", file);
+  };
+
   const onCreate = async (
     values: BlogInput,
     actions: FormikHelpers<BlogInput>
   ) => {
     try {
-      const { data } = await axios.post("/data/Blogs", values, {
-        headers: { "user-token": session.data?.userToken },
-      });
+      const formData = new FormData();
+      formData.append("title", values.title);
+      formData.append("category", values.category);
+      formData.append("content", values.content);
+      formData.append("thumbnail", values.thumbnail as Blob);
 
-      await axios.post(`/data/Blogs/${data.objectId}/author`, [session.data?.user.objectId], {
-        headers: { "user-token": session.data?.userToken },
-      });
-
+      await axios.post("/blogs/cloud", formData, {
+        headers: {
+          Authorization: `Bearer ${session.data?.userToken}`
+        }
+      })
       actions.resetForm();
       toast.success("Blog Created!");
     } catch (err) {
@@ -89,10 +102,10 @@ export default function FormBlog() {
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               >
                 <option value="">~ Pilih Category ~</option>
-                <option value="Sport">Sport</option>
-                <option value="News">News</option>
-                <option value="Food">Food</option>
-                <option value="IT">IT</option>
+                <option value="SPORT">Sport</option>
+                <option value="HEALTH">Health</option>
+                <option value="FOOD">Food</option>
+                <option value="NEWS">News</option>
               </Field>
               {touched.category && errors.category && (
                 <div className="text-red-500 text-[12px]">
@@ -107,9 +120,10 @@ export default function FormBlog() {
               >
                 Thumbnail
               </label>
-              <Field
+              <input
+                onChange={(e) => handleChange(e, setFieldValue)}
                 name="thumbnail"
-                type="text"
+                type="file"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               />
               {touched.thumbnail && errors.thumbnail && (

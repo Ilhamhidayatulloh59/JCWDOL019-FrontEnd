@@ -1,11 +1,11 @@
 import Link from "next/link";
 import Wrapper from "./wrapper";
 import Image from "next/image";
-// import { auth } from "@/lib/auth";
-// import Logout from "./logout";
+import { auth } from "@/lib/auth";
+import Logout from "./logout";
 
 export default async function Navbar() {
-  // const data = await auth();
+  const data = await auth();
   return (
     <div className="sticky top-0 z-10 bg-white shadow-sm">
       <Wrapper>
@@ -23,12 +23,12 @@ export default async function Navbar() {
               Blogger
             </span>
           </Link>
-          {/* {data ? (
+          {data ? (
             <div className="flex items-center gap-2 h-[30px]">
-              <p>{data.user.name}</p>
+              <p>{data.user.username}</p>
               <Logout />
             </div>
-          ) : ( */}
+          ) : (
             <div className="flex gap-2 h-[30px]">
               <Link
                 href={"/login"}
@@ -43,7 +43,7 @@ export default async function Navbar() {
                 Register
               </Link>
             </div>
-          {/* )} */}
+          )}
         </div>
       </Wrapper>
     </div>
